@@ -1,0 +1,11 @@
+.footer{
+    height: 29px;
+    background-color: #820AD1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Libre Baskerville', serif;
+    text-align: center;
+    font-size: 9px;
+    color: #fff;
+}

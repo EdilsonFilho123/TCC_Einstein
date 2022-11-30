@@ -1,0 +1,11 @@
+body {
+    background-color: #fff;
+}
+
+section{
+    background-color: #fff;
+    min-height: calc(calc(100vh - 62px) - 109px);
+    height: max-content;
+    padding: 40px 10vw;
+    text-align: center;
+}

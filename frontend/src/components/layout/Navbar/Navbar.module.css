@@ -1,0 +1,38 @@
+nav{
+    background-color: #820AD1;
+    height: 42px;
+}
+
+.logo{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    font-size: 15px;
+    color: #efefef
+}
+
+.list{
+    padding: 10px 5%;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    justify-content: space-between;
+}
+
+.item {
+    margin-right: 1em;
+}
+
+.link{
+    text-decoration: none;
+    color: #d9d9d9;
+    font-size: 12px;
+}
+
+.conta{
+    height: 33px;
+    width: 33px;
+    border-radius: 50%;
+    background-color: #73FF04;
+}

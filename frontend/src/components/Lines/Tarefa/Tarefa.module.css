@@ -1,0 +1,15 @@
+.iconli {
+    list-style-image: url("../../../resources/Images/v2.svg");
+    text-align: center;
+}
+
+/* .items div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+} */
+
+.link{
+    text-decoration: none;
+    color: #800080;
+}

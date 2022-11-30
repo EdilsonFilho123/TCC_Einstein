@@ -1,0 +1,21 @@
+.iconli {
+    list-style-image: url("../../../resources/Images/v2.svg");
+    text-align: center;
+}
+
+/* .items div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+} */
+
+.dicon{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.iconliright{
+    list-style-image: url("../../../resources/Images/v3.svg");
+    text-align: center;
+}
