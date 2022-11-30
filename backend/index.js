@@ -7,6 +7,7 @@ const http = require("http");
 
 const app = express();
 const saltRounds = 10;
+const SECRET = 'root';
 
 const bd = mysql.createPool({
     host: "localhost",
@@ -21,6 +22,24 @@ const bd = mysql.createPool({
 
 app.use(express.json());
 app.use(cors());
+
+function verifyJWT(req, res, next) {
+    const token = req.headers['x-access-token'];
+    jwt.verify(token, SECRET, (err, decode) => {
+        if(err) return res.status(401).end();
+        
+        req.body.isProf = decode.userNivel ? true : false;
+        next();
+    })
+}
+
+app.post("/verifyType", verifyJWT, (req, res) => {
+    res.json({isProf: req.body.isProf});
+})
+
+app.post("/verifyToken", verifyJWT, (req, res) => {
+    res.json({auth: true});
+})
 
 app.post("/cadastro", (req, res) => {
     const nome = req.body.nome;
@@ -49,27 +68,28 @@ app.post("/cadastro", (req, res) => {
 app.post('/login', (req, res) => {
     const email = req.body.email;
     const senha = req.body.senha;
-    const type = req.body.senha;
+    const type = req.body.type;
+    // return res.send({msg: `${email} -> ${senha} -> ${type}`});
 
     bd.query("SELECT * FROM Usuario WHERE email = ? AND nivel = ?", [email, type], (err, result) => {
         if(err)
-            res.send({err: "Erro select!"});
+            return res.send({err: "Erro select!"});
 
         if(result.length){
             bcrypt.compare(senha, result[0].senha, (errBcrypt, resultBcrypt) => {
                 if(errBcrypt)
-                    res.send({err: "Erro compare!"});
+                    return res.send({err: "Erro compare!"});
 
                 if(resultBcrypt){
                     const token = jwt.sign({userId: result[0].id, userNivel: result[0].nivel, userName: result[0].nome }, SECRET, { expiresIn: 300 });
                     return res.json({auth: true, token: token});
                 }
                 else
-                    res.send({msg: "Senha incorreta!!!"});  
+                    return res.send({msg: "Senha incorreta!!!"});  
             })
         }
         else
-            res.send({msg: "Email invalido!!!" + result});  
+            return res.send({msg: `Email invalido!!! ${email} -> ${type}`});  
     })
 })
 

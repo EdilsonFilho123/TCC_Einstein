@@ -10,12 +10,11 @@ function Login(){
 
     const handleSubLogin = (values) => {
         Axios.post("http://localhost:3001/login", {
-            type: 0,
+            type: parseInt(values.type, 10) || 0,
             email: values.email,
             senha: values.senha,
         }).then(response => {
-            console.log(response.data);
-
+            // console.log(response);
             if(response.data.auth){
                 localStorage.setItem('authToken', response.data.token);
                 navigate("/home");
@@ -32,7 +31,7 @@ function Login(){
 
     const validationLogin = yup.object().shape({
         email: yup.string().email().required("Email invalido!!!"),
-        password: yup.string().min(8, "A senha deve ter 8 caracteres").required("Senha invalida"),
+        senha: yup.string().min(8, "A senha deve ter 8 caracteres").required("Senha invalida"),
     })
 
     return (
@@ -52,8 +51,8 @@ function Login(){
                         <ErrorMessage component="span" name='email' className='form-error'/>
                     </div>
                     <div>
-                        <Field name="password" className={style.field} placeholder="Senha" />
-                        <ErrorMessage component="span" name='password' className='form-error'/>
+                        <Field type="password" name="senha" className={style.field} placeholder="Senha" />
+                        <ErrorMessage component="span" name='senha' className='form-error'/>
                     </div>
                     <button className={style.button} type="submit">Enviar</button>
                 </Form>

@@ -1,33 +1,23 @@
-// import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 // import { useState } from "react";
-// import Axios from "axios";
+import Axios from "axios";
 
 function RequireAuth(props) {
 
-    // const token = localStorage.getItem("token");
-    // const [valido, setValido] = useState(false);
-    // const [prof, setProf] = useState(false);
+    const token = localStorage.getItem("authToken");
+    // const [valido, setValido] = useState();
 
-    // if(!token)
-    //     return <Navigate to={"/login" }/>;
+    if(!token)
+        return <Navigate to={"/login" }/>;
 
-    if(props.verifyProf){
-        // Axios.post("http://localhost:3001/verifyProf", {
-        //     token: token,
-        // }).then(response => setProf(response.data.isProf));
+    Axios.defaults.headers['Content-Type'] = 'application/json';
+    Axios.defaults.headers['x-access-token'] = token;
 
-        if(false)
-            return props.children
-        else
-            return props.profFalse || null;
-    }
-
-    // Axios.post("http://localhost:3001/verifyToken", {
-    //     token: token,
-    // }).then(response => setValido(response.data.isValide))
-    
-    // if(!valido)
-    //     return <Navigate to={"/login" } />;
+    Axios.post("http://localhost:3001/verifyToken", {}
+    ).then(response => {
+        if(!response.data.auth)
+            return <Navigate to={"/login" } />;
+    })
     
     return props.children;
 };
