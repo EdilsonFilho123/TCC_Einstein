@@ -217,12 +217,48 @@ app.post('/nomeTurma', verifyJWT, (req, res) => {
             return res.send({err: "Erro! " + err});
         else
             try {
-            if(result[0].nome)
-                return res.json({nome: result[0].nome});
-            else
-                return res.json({nome: "sem nome"});
+                if(result[0].nome)
+                    return res.json({nome: result[0].nome});
+                else
+                    return res.json({nome: "sem nome"});
             } catch (error) {
                 return res.json({nome: "sem nome"});
+            }
+    })
+})
+
+app.post('/carregaMaterias', verifyJWT, (req, res) => {
+    const id = req.body.userId;
+
+    bd.query("SELECT * FROM MateriasDoAluno WHERE idUsuario = ? group by idMateria", [id], (err, result) => {
+        if(err)
+            return res.send({err: "Erro! " + err});
+        else
+            try {
+                if(result[0].id)
+                    return res.json({materias: result});
+                else
+                    return res.send({err: "sem linhas"});
+            } catch (error) {
+                return res.send({err: "try"});
+            }
+    })
+})
+
+app.post('/carregaNomeMaterias', verifyJWT, (req, res) => {
+    const id = req.body.id;
+
+    bd.query("SELECT * FROM Materia WHERE id = ?", [id], (err, result) => {
+        if(err)
+            return res.send({err: "Erro! " + err});
+        else
+            try {
+                if(result[0])
+                    return res.json({dadosMat: result[0]});
+                else
+                    return res.send({err: "sem linhas"});
+            } catch (error) {
+                return res.send({err: "try " + id + " - " +error});
             }
     })
 })

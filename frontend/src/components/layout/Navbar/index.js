@@ -33,7 +33,7 @@ function Navbar(){
             </Link>
             <ul className={style.list}>
                 {/* <li className={style.item}><Link to="/home" className={style.link}>Home</Link></li> */}
-                <li className={style.item}><Link to="/calendario" className={style.link}>Calendario</Link></li>
+                {/* <li className={style.item}><Link to="/calendario" className={style.link}>Calendario</Link></li> */}
                 <li className={style.item}><Link to="/tarefas" className={style.link}>Tarefas</Link></li>
                 <li className={style.item}><Link to="/provas" className={style.link}>Provas</Link></li>
                 <li className={style.item}><Link to="/notas" className={style.link}>Notas</Link></li>
