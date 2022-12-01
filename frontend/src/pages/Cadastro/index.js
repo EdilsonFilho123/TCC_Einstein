@@ -18,7 +18,7 @@ function Cadastro(){
     const validationCadastro = yup.object().shape({
         nome: yup.string().required("Nome invalido!!!"),
         // data: yup.date().required("Data invalida!!!"),
-        cpf: yup.string().required("R.A. invalido!!!"),
+        cpf: yup.string().required("CPF invalido!!!"),
         email: yup.string().email().required("Email invalido!!!"),
         senha: yup.string().min(8, "A senha deve ter 8 caracteres").required("Senha invalida"),
         senhaConf: yup.string().oneOf([yup.ref("senha"), null], "As senha NÃO são indênticas!"),

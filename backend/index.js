@@ -29,6 +29,7 @@ function verifyJWT(req, res, next) {
         if(err) return res.status(401).end();
         
         req.body.isProf = decode.userNivel ? true : false;
+        req.body.userId = decode.userId ? decode.userId : 0;
         next();
     })
 }
@@ -90,6 +91,139 @@ app.post('/login', (req, res) => {
         }
         else
             return res.send({msg: `Email invalido!!! ${email} -> ${type}`});  
+    })
+})
+
+app.post('/novaTurma', verifyJWT, (req, res) => {
+    const nome = req.body.nome;
+    const descricao = req.body.descricao;
+    const idProf = req.body.userId;
+
+    if(nome == "" || descricao == "")
+        return res.send({err: "Not Args"});  
+
+    if(!req.body.isProf)
+        return res.send({err: "Not Prof"});  
+
+    bd.query("INSERT INTO materia (nome, descricao, idProf) VALUES (?, ?, ?)", [nome, descricao, idProf], (err, result) => {
+        if(err)
+            return res.send({err: "Erro insert! " + err});
+        else
+            return res.send({create: true});  
+    })
+})
+
+app.post('/turmas', verifyJWT, (req, res) => {
+    const idProf = req.body.userId;
+
+    bd.query("SELECT id, nome, descricao FROM materia WHERE idProf = ?", [idProf], (err, result) => {
+        if(err)
+            return res.send({err: "Erro insert! " + err});
+        else
+            return res.json({turmas: result});
+    })
+})
+
+app.post('/deleteTurma', verifyJWT, (req, res) => {
+    const id = req.body.idTurma;
+
+    bd.query("DELETE FROM `portal_professores`.`materia` WHERE (`id` = ?)", [id], (err, result) => {
+        if(err)
+            return res.send({err: "Erro insert! " + err});
+        else
+            return res.send({deleted: true});
+    })
+})
+
+app.post('/novoAluno', verifyJWT, (req, res) => {
+    const email = req.body.email;
+    const id = req.body.id;
+
+    if(email == "" || id == "")
+        return res.send({err: "Not Args"});  
+
+    if(!req.body.isProf)
+        return res.send({err: "Not Prof"});  
+
+    bd.query("SELECT id FROM Usuario WHERE email = ?", [email], (err, result1) => {
+        if(err)
+            res.send({err: "Erro select! " + err});
+        else{
+            try {
+                if(result1[0].id)
+                    bd.query("INSERT INTO MateriasDoAluno (idUsuario, idMateria) VALUES (?, ?)", [result1[0].id, id], (err2, result2) => {
+                        if(err2)
+                            return res.send({err: "Erro insert! " + err2});
+                        else
+                            return res.send({add: true});  
+                    })
+                else
+                    return res.send({err: "Erro select! " + err});
+            } catch (error) {
+                return res.send({add: false});
+            }
+        }
+    })
+})
+
+app.post('/novoPost', verifyJWT, (req, res) => {
+    const nome = req.body.nome;
+    const conteudo = req.body.conteudo;
+    const type = req.body.type
+    const id = req.body.id
+
+    if(nome == "" || conteudo == "" || type == "" || id == "")
+        return res.send({err: "Not Args"});  
+
+    if(!req.body.isProf)
+        return res.send({err: "Not Prof"});  
+
+    bd.query("INSERT INTO Postagem (idMateria, nome, conteudo, tipo) VALUES (?, ?, ?, ?)", [id, nome, conteudo, type], (err, result) => {
+        if(err)
+            return res.send({err: "Erro insert! " + err});
+        else
+            return res.send({add: true});  
+    })
+})
+
+app.post('/carregaPosts', verifyJWT, (req, res) => {
+    const id = req.body.idMaterias
+
+    if(id == "")
+        return res.send({err: "Not Args"});  
+
+    if(!req.body.isProf)
+        return res.send({err: "Not Prof"});  
+
+        // try {
+            bd.query("SELECT * FROM Postagem WHERE idMateria = ? ORDER BY id DESC", [id], (err, result) => {
+                if(err)
+                    return res.send({err: "Erro insert! " + err});
+                else{
+                    return res.json({posts: result});  
+
+                }
+            })
+        // } catch (error) {
+        //     return res.send({err: "New Error" + error});  
+        // }
+})
+
+app.post('/nomeTurma', verifyJWT, (req, res) => {
+    const id = req.body.id;
+
+    bd.query("SELECT nome FROM materia WHERE id = ?", [id], (err, result) => {
+        if(err)
+            return res.send({err: "Erro! " + err});
+        else
+            try {
+            if(result[0].nome)
+                return res.json({nome: result[0].nome});
+            else
+                return res.json({nome: "sem nome"});
+            } catch (error) {
+                return res.json({nome: "sem nome"});
+            }
     })
 })
 

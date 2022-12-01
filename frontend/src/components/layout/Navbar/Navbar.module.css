@@ -38,3 +38,8 @@ nav{
     border-radius: 50%;
     background-color: #73FF04;
 }
+
+.notList{
+    text-decoration: none;
+    color: #d9d9d9;
+}

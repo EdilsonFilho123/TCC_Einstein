@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 
 function Line(props) {
     return (
-        <Link to={props.to} className={style.line}>
-            <div className={style.items}>
+        <div className={style.line}>
+            <Link to={props.to} className={style.items}>
                 {props.children}
-            </div>
+            </Link>
 
             <div>{props.right || null}</div>
-        </Link>
+        </div>
     )
 }
 

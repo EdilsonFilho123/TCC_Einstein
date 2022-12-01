@@ -25,3 +25,9 @@
     list-style-image: url("../../../resources/Images/v4.svg");
     text-align: center;
 }
+
+.btn{ 
+    padding: 0;
+    border: none;
+    background-color: #00000000;
+}
