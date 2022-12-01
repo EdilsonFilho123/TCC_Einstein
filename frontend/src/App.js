@@ -14,6 +14,8 @@ import Home from './pages/Home';
 import React from 'react';
 import RequireAuth from './auth';
 import Pagina400 from './pages/Pagina400';
+import VerifyProf from './VerifyProf';
+import Postagens from './pages/Postagens';
 
 function App() {
   return (
@@ -27,9 +29,9 @@ function App() {
         <Route path='/tarefas' element={<RequireAuth><Tarefas /></RequireAuth>} />
         <Route path='/provas' element={<RequireAuth><Provas /></RequireAuth>} />
         <Route path='/notas' element={<RequireAuth><Notas /></RequireAuth>} />
-        <Route path='/materias' element={<RequireAuth><Materias /></RequireAuth>} />
-        <Route path='/materias/:id' element={<RequireAuth><Login /></RequireAuth>} />
-        <Route path='/turmas' element={<RequireAuth verifyProf={true} profFalse={<Pagina400 />} ><Turmas /></RequireAuth>} />
+        <Route path='/materias' element={<RequireAuth><VerifyProf bodyAl={<Materias />} bodyProf={<Home />} /></RequireAuth>} />
+        <Route path='/turmas' element={<RequireAuth><VerifyProf bodyAl={<Home />} bodyProf={<Turmas />} /></RequireAuth>} />
+        <Route path='/postagens' element={<RequireAuth><Postagens /></RequireAuth>} />
         <Route path='/config' element={<RequireAuth><Conta /></RequireAuth>} />
         <Route path='*' element={<Pagina400 />} />
       </Routes>

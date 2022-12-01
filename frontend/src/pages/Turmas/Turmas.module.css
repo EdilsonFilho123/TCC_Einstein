@@ -1,0 +1,38 @@
+.cabecalho {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cantoL{
+    height: 28px;
+    width: 28px;
+}
+
+.cantoR{
+    height: 28px;
+    width: 28px;
+    border: 2px solid #00000000;
+    border-radius: 5px;
+    box-shadow: 0.1em 0.1em 0.2em #acacac;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vert{
+    height: 25px;
+    width: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    position: absolute;
+}
+
+.horiz{
+    height: 3px;
+    width: 25px;
+    border-radius: 3px;
+    background-color: #000;
+    box-shadow: 0.1em 0.1em 0.2em #acacac;
+}

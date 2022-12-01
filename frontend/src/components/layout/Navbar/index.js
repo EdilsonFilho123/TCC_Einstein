@@ -27,7 +27,10 @@ function Navbar(){
 
     return (
         <nav className={style.list}>
-            <Link to="/home" className={style.logo} >
+            <Link to={{
+                path: "/home",
+                state: {id: 24}
+            }} className={style.logo} >
                 Conexão <br/> 
                 {verifyUserType(<>Aluno</>, <>Professor</>)}
             </Link>
